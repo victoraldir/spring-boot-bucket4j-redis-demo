@@ -28,7 +28,6 @@ public class IpThrottlingFilter extends GenericFilterBean {
 
     private ProxyManager<String> buckets;
 
-
     public IpThrottlingFilter(Cache<String, GridBucketState> cache) {
         this.cache = cache;
         // init bucket registry
@@ -44,7 +43,7 @@ public class IpThrottlingFilter extends GenericFilterBean {
 
         BucketConfiguration bucketConfiguration = Bucket4j.configurationBuilder()
                 .addLimit(Bandwidth.simple(10, Duration.ofMinutes(1)))
-                .buildConfiguration();
+                .build();
 
         // prepare configuration supplier which will be called(on first interaction with proxy) iff bucket was not saved yet previously. 
         Supplier<BucketConfiguration> configurationLazySupplier = () -> bucketConfiguration;
@@ -69,7 +68,7 @@ public class IpThrottlingFilter extends GenericFilterBean {
     private Supplier<BucketConfiguration> getConfigSupplier() {
         return () -> Bucket4j.configurationBuilder()
                 .addLimit(Bandwidth.simple(10, Duration.ofMinutes(1)))
-                .buildConfiguration();
+                .build();
     }
 
 
